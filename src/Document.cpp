@@ -1,51 +1,84 @@
 #include "Document.hpp"
 
 Document::Document(std::string title, std::string contents) {
-    // TODO: implement according to the M1 specification.
+    title_ = title;
+    contents_ = contents;
 
 }
 
 bool Document::operator==(const Document& other) const {
-    // TODO
+    return title_ == other.title_ &&
+            sourcePath_ == other.sourcePath_ &&
+            contents_ == other.contents_;
 
 }
 
 bool Document::operator!=(const Document& other) const {
-    // TODO
+    return !(*this == other);
 
 }
 
 bool Document::load(const std::string& path) {
-    // TODO
+    std::ifstream file(path);
+
+    if (!file) {
+        return false;
+    }
+
+    std::string newContents;
+    char character;
+
+    while (file.get(character)) {
+        newContents += character;
+    }
+
+    if (file.bad()) {
+        return false;
+    }
+
+    std::size_t position = path.find_last_of('/');
+    std::string newTitle;
+
+    if (position == std::string::npos) {
+        newTitle = path;
+    } else {
+        newTitle = path.substr(position + 1);
+    }
+
+    sourcePath_ = path;
+    title_ = newTitle;
+    contents_ = newContents;
+
+    return true;
 
 }
 
 const std::string& Document::title() const noexcept {
-    // TODO
+    return title_;
 
 }
 
 const std::string& Document::sourcePath() const noexcept {
-    // TODO
+    return sourcePath_;
 
 }
 
 const std::string& Document::contents() const noexcept {
-    // TODO
+    return contents_;
   
 }
 
 void Document::setTitle(std::string title) {
-    // TODO
+    title_ = title;
   
 }
 
 std::size_t Document::characterCount() const noexcept {
-    // TODO
+    return contents_.size();
     
 }
 
 bool Document::empty() const noexcept {
-    // TODO
+    return contents_.empty();
    
 }
