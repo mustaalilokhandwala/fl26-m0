@@ -1,4 +1,5 @@
 #include "Document.hpp"
+#include <fstream>
 
 Document::Document(std::string title, std::string contents) {
     title_ = title;
